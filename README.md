@@ -409,6 +409,11 @@
 
   // Ар бир мүнөт сайын мөөнөттү жаңыртуу
   setInterval(renderAds, 60000);
+   ┣ 📁 pdf
+ ┃ ┗ 📄 zharnama1.pdf
+ ┃ ┗ 📄 zharnama2.pdf
+ ┣ 📄 index.html
+
 </script>
 
 </body>
