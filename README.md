@@ -262,7 +262,6 @@
   <p>Бул бөлүм айыл аймагындагы акыркы жаңылыктар жана убактылуу жарнамалар үчүн арналган. PDF форматындагы файлдарды жүктөөгө болот.</p>
 
   <ul class="ad-list" id="ad-list"></ul>
-
   <form class="upload-form" id="uploadForm" enctype="multipart/form-data" aria-label="Жарнамаларды жүктөө формасы">
     <label for="adFile">Жарнама (PDF):</label>
     <input type="file" id="adFile" name="adFile" accept="application/pdf" required aria-required="true" />
@@ -409,12 +408,7 @@
 
   // Ар бир мүнөт сайын мөөнөттү жаңыртуу
   setInterval(renderAds, 60000);
-   ┣ 📁 pdf
- ┃ ┗ 📄 zharnama1.pdf
- ┃ ┗ 📄 zharnama2.pdf
- ┣ 📄 index.html
-
-</script>
+ </script>
 
 </body>
 </html>
