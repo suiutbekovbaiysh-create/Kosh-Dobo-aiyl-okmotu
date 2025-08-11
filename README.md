@@ -258,23 +258,21 @@
 </section>
 
 <section id="zhanylyktar">
- <section id="zhanylyktar">
   <h2>Жаңылыктар жана Убактылуу Жарнамалар</h2>
-  <p>Бул бөлүм айыл аймагындагы акыркы жаңылыктар жана убактылуу жарнамалар үчүн арналган. PDF форматындагы файлдардын URL даректерин киргизүүгө болот.</p>
+  <p>Бул бөлүм айыл аймагындагы акыркы жаңылыктар жана убактылуу жарнамалар үчүн арналган. PDF форматындагы файлдарды жүктөөгө болот.</p>
 
   <ul class="ad-list" id="ad-list"></ul>
 
-  <form class="upload-form" id="uploadForm" aria-label="Жарнамаларды кошуу формасы">
-    <label for="adUrl">Жарнама (PDF URL):</label>
-    <input type="url" id="adUrl" name="adUrl" placeholder="https://..." required aria-required="true" />
+  <form class="upload-form" id="uploadForm" enctype="multipart/form-data" aria-label="Жарнамаларды жүктөө формасы">
+    <label for="adFile">Жарнама (PDF):</label>
+    <input type="file" id="adFile" name="adFile" accept="application/pdf" required aria-required="true" />
     
     <label for="adDays">Жарнаманын мөөнөтү (күн):</label>
     <input type="number" id="adDays" name="adDays" min="1" max="365" value="7" required aria-required="true" />
     
-    <button type="submit">Кошуу</button>
+    <button type="submit">Жүктөө</button>
   </form>
 </section>
-
 
 <footer>
   <p>© 2025 Кош-Дөбө айыл аймагы. Бардык укуктар корголгон.</p>
@@ -282,103 +280,132 @@
 
 <script>
   // Мобилдик меню үчүн
-  const adList = document.getElementById('ad-list');
-const uploadForm = document.getElementById('uploadForm');
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('nav-links');
 
-let ads = [];
-
-function renderAds() {
-  adList.innerHTML = '';
-  const now = new Date();
-
-  ads = ads.filter(ad => {
-    const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
-    return expireDate > now;
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+  burger.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      navLinks.classList.toggle('active');
+    }
   });
 
-  if (ads.length === 0) {
-    adList.innerHTML = '<li>Жарнама жок</li>';
-    return;
-  }
+  // Жарнамаларды башкаруу
+  const adList = document.getElementById('ad-list');
+  const uploadForm = document.getElementById('uploadForm');
 
-  ads.forEach((ad, index) => {
-    const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
-    const remainingMs = expireDate - now;
-    const remainingDays = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
-    const remainingHours = Math.floor((remainingMs / (1000 * 60 * 60)) % 24);
+  // Сактоо үчүн жарнамалар массиви
+  let ads = [];
 
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = ad.url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.textContent = ad.filename;
+  // Жарнамаларды көрсөтүү функциясы
+  function renderAds() {
+    adList.innerHTML = '';
+    const now = new Date();
 
-    const timer = document.createElement('div');
-    timer.className = 'ad-timer';
-    timer.textContent = `Мөөнөт: ${remainingDays} күн ${remainingHours} саат`;
-
-    const removeBtn = document.createElement('div');
-    removeBtn.className = 'remove-btn';
-    removeBtn.textContent = '×';
-    removeBtn.title = 'Жарнаманы өчүрүү';
-    removeBtn.setAttribute('role', 'button');
-    removeBtn.tabIndex = 0;
-    removeBtn.addEventListener('click', () => {
-      ads.splice(index, 1);
-      renderAds();
+    // Жарнамаларды мөөнөтүнө карап текшерүү, мөөнөтү өткөн жарнамаларды өчүрүү
+    ads = ads.filter(ad => {
+      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
+      if (expireDate > now) {
+        // Өтпөгөндөрүн калтыруу
+        return true;
+      }
+      return false;
     });
-    removeBtn.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+
+    if (ads.length === 0) {
+      adList.innerHTML = '<li>Жарнама жок</li>';
+      return;
+    }
+
+    ads.forEach((ad, index) => {
+      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
+      const remainingMs = expireDate - now;
+      const remainingDays = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+      const remainingHours = Math.floor((remainingMs / (1000 * 60 * 60)) % 24);
+
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = ad.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = ad.filename;
+
+      const timer = document.createElement('div');
+      timer.className = 'ad-timer';
+      timer.textContent = `Мөөнөт: ${remainingDays} күн ${remainingHours} саат`;
+
+      const removeBtn = document.createElement('div');
+      removeBtn.className = 'remove-btn';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Жарнаманы өчүрүү';
+      removeBtn.setAttribute('role', 'button');
+      removeBtn.tabIndex = 0;
+      removeBtn.addEventListener('click', () => {
         ads.splice(index, 1);
         renderAds();
-      }
+      });
+      removeBtn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          ads.splice(index, 1);
+          renderAds();
+        }
+      });
+
+      li.appendChild(a);
+      li.appendChild(timer);
+      li.appendChild(removeBtn);
+
+      adList.appendChild(li);
+    });
+  }
+
+  // Форма тапшырууну иштетүү
+  uploadForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const fileInput = document.getElementById('adFile');
+    const daysInput = document.getElementById('adDays');
+
+    if (fileInput.files.length === 0) {
+      alert('Файл тандаңыз');
+      return;
+    }
+
+    const file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Тек гана PDF файлдарды кабыл алабыз');
+      return;
+    }
+
+    const days = parseInt(daysInput.value, 10);
+    if (isNaN(days) || days < 1) {
+      alert('Мөөнөттү туура киргизиңиз');
+      return;
+    }
+
+    // Файлды сактоо үчүн URL түзүү
+    const fileURL = URL.createObjectURL(file);
+
+    ads.push({
+      filename: file.name,
+      url: fileURL,
+      days: days,
+      added: new Date()
     });
 
-    li.appendChild(a);
-    li.appendChild(timer);
-    li.appendChild(removeBtn);
+    renderAds();
 
-    adList.appendChild(li);
-  });
-}
-
-uploadForm.addEventListener('submit', e => {
-  e.preventDefault();
-
-  const urlInput = document.getElementById('adUrl');
-  const daysInput = document.getElementById('adDays');
-
-  const url = urlInput.value.trim();
-  if (!url || !url.endsWith('.pdf')) {
-    alert('Туура PDF URL киргизиңиз');
-    return;
-  }
-
-  const days = parseInt(daysInput.value, 10);
-  if (isNaN(days) || days < 1) {
-    alert('Мөөнөттү туура киргизиңиз');
-    return;
-  }
-
-  ads.push({
-    filename: url.split('/').pop(),
-    url: url,
-    days: days,
-    added: new Date()
+    // Форма тазалоо
+    uploadForm.reset();
   });
 
+  // Бет ачылганда жарнамаларды көрсөтүү
   renderAds();
-  uploadForm.reset();
-});
-
-renderAds();
-
-
-  // Ар бир мүнөт сайын мөөнөттү жаңыртуу
-  setInterval(renderAds, 60000);
- </script>
+</script>
 
 </body>
 </html>
