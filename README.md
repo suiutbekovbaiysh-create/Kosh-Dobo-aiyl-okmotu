@@ -259,10 +259,17 @@
 
 <section id="zhanylyktar">
   <h2>Жаңылыктар жана Убактылуу Жарнамалар</h2>
-  <p>Бул бөлүм айыл аймагындагы акыркы жаңылыктар жана убактылуу жарнамалар үчүн арналган. PDF форматындагы файлдарды жүктөөгө болот.</p>
+  <p>Бул бөлүмдө айыл аймагындагы акыркы жаңылыктар жана PDF документтер бар.</p>
 
+  <!-- Папкадагы PDF тизмеси -->
+  <h3>Туруктуу документтер</h3>
+  <ul class="ad-list" id="server-pdf-list"></ul>
+
+  <!-- Убактылуу жарнамалар -->
+  <h3>Убактылуу жарнамалар</h3>
   <ul class="ad-list" id="ad-list"></ul>
 
+  <!-- Жүктөө формасы -->
   <form class="upload-form" id="uploadForm" enctype="multipart/form-data" aria-label="Жарнамаларды жүктөө формасы">
     <label for="adFile">Жарнама (PDF):</label>
     <input type="file" id="adFile" name="adFile" accept="application/pdf" required aria-required="true" />
@@ -274,45 +281,43 @@
   </form>
 </section>
 
-<footer>
-  <p>© 2025 Кош-Дөбө айыл аймагы. Бардык укуктар корголгон.</p>
-</footer>
-
 <script>
-  // Мобилдик меню үчүн
-  const burger = document.getElementById('burger');
-  const navLinks = document.getElementById('nav-links');
+  // -------------------- Туруктуу PDFтер --------------------
+  const serverPdfFolder = 'pdfs/'; // сервердеги папка
+  const serverPdfFiles = [
+    'doc1.pdf',
+    'doc2.pdf',
+    'doc3.pdf'
+    // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
+  ];
 
-  burger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-  });
-  burger.addEventListener('keydown', e => {
-    if(e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      navLinks.classList.toggle('active');
-    }
-  });
+  const serverPdfList = document.getElementById('server-pdf-list');
+  if (serverPdfFiles.length === 0) {
+    serverPdfList.innerHTML = '<li>Документ жок</li>';
+  } else {
+    serverPdfFiles.forEach(file => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = serverPdfFolder + file;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = file;
+      li.appendChild(a);
+      serverPdfList.appendChild(li);
+    });
+  }
 
-  // Жарнамаларды башкаруу
+  // -------------------- Убактылуу жарнамалар --------------------
   const adList = document.getElementById('ad-list');
   const uploadForm = document.getElementById('uploadForm');
-
-  // Сактоо үчүн жарнамалар массиви
   let ads = [];
 
-  // Жарнамаларды көрсөтүү функциясы
   function renderAds() {
     adList.innerHTML = '';
     const now = new Date();
-
-    // Жарнамаларды мөөнөтүнө карап текшерүү, мөөнөтү өткөн жарнамаларды өчүрүү
     ads = ads.filter(ad => {
       const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
-      if (expireDate > now) {
-        // Өтпөгөндөрүн калтыруу
-        return true;
-      }
-      return false;
+      return expireDate > now;
     });
 
     if (ads.length === 0) {
@@ -347,26 +352,16 @@
         ads.splice(index, 1);
         renderAds();
       });
-      removeBtn.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          ads.splice(index, 1);
-          renderAds();
-        }
-      });
 
       li.appendChild(a);
       li.appendChild(timer);
       li.appendChild(removeBtn);
-
       adList.appendChild(li);
     });
   }
 
-  // Форма тапшырууну иштетүү
   uploadForm.addEventListener('submit', e => {
     e.preventDefault();
-
     const fileInput = document.getElementById('adFile');
     const daysInput = document.getElementById('adDays');
 
@@ -387,9 +382,7 @@
       return;
     }
 
-    // Файлды сактоо үчүн URL түзүү
     const fileURL = URL.createObjectURL(file);
-
     ads.push({
       filename: file.name,
       url: fileURL,
@@ -398,14 +391,12 @@
     });
 
     renderAds();
-
-    // Форма тазалоо
     uploadForm.reset();
   });
 
-  // Бет ачылганда жарнамаларды көрсөтүү
   renderAds();
 </script>
+
 
 </body>
 </html>
