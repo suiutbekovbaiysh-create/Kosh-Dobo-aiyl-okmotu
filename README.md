@@ -324,6 +324,36 @@
       adList.innerHTML = '<li>Жарнама жок</li>';
       return;
     }
+<?php
+$pdfFolder = 'pdfs/';
+if (!is_dir($pdfFolder)) {
+    mkdir($pdfFolder, 0777, true);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_FILES['adFile']) && $_FILES['adFile']['error'] === 0) {
+        $fileTmp = $_FILES['adFile']['tmp_name'];
+        $fileName = basename($_FILES['adFile']['name']);
+        $fileType = mime_content_type($fileTmp);
+
+        if ($fileType === 'application/pdf') {
+            $targetPath = $pdfFolder . $fileName;
+            if (move_uploaded_file($fileTmp, $targetPath)) {
+                header('Location: index.php?success=1');
+                exit;
+            } else {
+                echo "Файлды сактоодо ката кетти.";
+            }
+        } else {
+            echo "Тек PDF файлдарды кабыл алабыз.";
+        }
+    } else {
+        echo "Файл тандалган жок же катасы бар.";
+    }
+} else {
+    echo "Жарамсыз сурам.";
+}
+?>
 
     ads.forEach((ad, index) => {
       const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
