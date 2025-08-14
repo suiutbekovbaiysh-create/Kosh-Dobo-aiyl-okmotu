@@ -285,7 +285,7 @@
   // -------------------- Туруктуу PDFтер --------------------
   const serverPdfFolder = 'pdfs/'; // сервердеги папка
   const serverPdfFiles = [
-    'https://www.mediafire.com/file/k2jbe551l627v0g/pdf24_merged.pdf/filedoc1.pdf',
+    'doc1.pdf',
     'doc2.pdf',
     'doc3.pdf'
     // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
