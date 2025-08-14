@@ -285,6 +285,61 @@
   // -------------------- Туруктуу PDFтер --------------------
   const serverPdfFolder = 'pdfs/'; // сервердеги папка
   const serverPdfFiles = [
+    
+<html lang="ky">
+<head>
+  <meta charset="UTF-8">
+  <title>Документтер</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+    h1 { color: #333; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin: 5px 0; }
+    a { text-decoration: none; color: #007bff; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Документтер тизмеси</h1>
+  <ul id="pdf-list">
+    <li>Жүктөп жатат...</li>
+  </ul>
+
+  <script>
+    const user = "suiutbekovbaiysh-create";  // GitHub колдонуучу аты
+    const repo = "Kosh-Dobo-aiyl-okmotu";    // Репозиторий аты
+    const list = document.getElementById('pdf-list');
+
+    async function fetchFiles(path = "") {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`);
+        const data = await res.json();
+
+        for (const file of data) {
+          if (file.type === "dir") {
+            // Папка болсо рекурсивдүү чакыруу
+            await fetchFiles(file.path);
+          } else if (file.name.endsWith(".pdf")) {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${file.download_url}" target="_blank">${file.path}</a>`;
+            list.appendChild(li);
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        list.innerHTML = "<li>Файлдарды жүктөө мүмкүн болбоду</li>";
+      }
+    }
+
+    // Баштоо
+    list.innerHTML = "<li>Жүктөп жатат...</li>";
+    fetchFiles().then(() => {
+      if (list.innerHTML.includes("Жүктөп жатат")) list.innerHTML = "<li>PDF файлдар табылган жок</li>";
+    });
+  </script>
+</body>
+</html>
+
     'doc1.pdf',
     'doc2.pdf',
     'doc3.pdf'
