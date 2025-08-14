@@ -285,10 +285,10 @@
   // -------------------- Туруктуу PDFтер --------------------
   const serverPdfFolder = 'pdfs/'; // сервердеги папка
   const serverPdfFiles = [
-'(https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%25BD%25D0%25B3%25D0%25B0%25D0%25BA_%25D0%25B0%25D0%25B9%25D1%258B%25D0%25BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file)',
+'https://github.com/suiutbekovbaiysh-create/Kosh-Dobo-aiyl-okmotu/blob/main/1_%D0%9E%D0%9F%20%D1%81.%D0%96%D0%B0%D0%BD%D0%B3%D0%B0%D0%BA%20%D0%B0%D0%B9%D1%8B%D0%BB%D1%8B-%D0%9E%D0%9F.pdf',
     'doc2.pdf',
     'doc3.pdf'
-    // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
+ Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
   ];
 
   const serverPdfList = document.getElementById('server-pdf-list');
