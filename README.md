@@ -285,59 +285,122 @@
   // -------------------- Туруктуу PDFтер --------------------
   const serverPdfFolder = 'pdfs/'; // сервердеги папка
   const serverPdfFiles = [
-    
-<html lang="ky">
-<head>
-  <meta charset="UTF-8">
-  <title>Документтер</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-    h1 { color: #333; }
-    ul { list-style-type: none; padding: 0; }
-    li { margin: 5px 0; }
-    a { text-decoration: none; color: #007bff; }
-    a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-  <h1>Документтер тизмеси</h1>
-  <ul id="pdf-list">
-    <li>Жүктөп жатат...</li>
-  </ul>
+    'doc1.pdf',
+    'doc2.pdf',
+    'doc3.pdf'
+    // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
+  ];
 
-  <script>
-    const user = "suiutbekovbaiysh-create";  // GitHub колдонуучу аты
-    const repo = "Kosh-Dobo-aiyl-okmotu";    // Репозиторий аты
-    const list = document.getElementById('pdf-list');
+  const serverPdfList = document.getElementById('server-pdf-list');
+  if (serverPdfFiles.length === 0) {
+    serverPdfList.innerHTML = '<li>Документ жок</li>';
+  } else {
+    serverPdfFiles.forEach(file => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = serverPdfFolder + file;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = file;
+      li.appendChild(a);
+      serverPdfList.appendChild(li);
+    });
+  }
 
-    async function fetchFiles(path = "") {
-      try {
-        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`);
-        const data = await res.json();
+  // -------------------- Убактылуу жарнамалар --------------------
+  const adList = document.getElementById('ad-list');
+  const uploadForm = document.getElementById('uploadForm');
+  let ads = [];
 
-        for (const file of data) {
-          if (file.type === "dir") {
-            // Папка болсо рекурсивдүү чакыруу
-            await fetchFiles(file.path);
-          } else if (file.name.endsWith(".pdf")) {
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="${file.download_url}" target="_blank">${file.path}</a>`;
-            list.appendChild(li);
-          }
-        }
-      } catch (err) {
-        console.error(err);
-        list.innerHTML = "<li>Файлдарды жүктөө мүмкүн болбоду</li>";
-      }
+  function renderAds() {
+    adList.innerHTML = '';
+    const now = new Date();
+    ads = ads.filter(ad => {
+      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
+      return expireDate > now;
+    });
+
+    if (ads.length === 0) {
+      adList.innerHTML = '<li>Жарнама жок</li>';
+      return;
     }
 
-    // Баштоо
-    list.innerHTML = "<li>Жүктөп жатат...</li>";
-    fetchFiles().then(() => {
-      if (list.innerHTML.includes("Жүктөп жатат")) list.innerHTML = "<li>PDF файлдар табылган жок</li>";
+
+    ads.forEach((ad, index) => {
+      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
+      const remainingMs = expireDate - now;
+      const remainingDays = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+      const remainingHours = Math.floor((remainingMs / (1000 * 60 * 60)) % 24);
+
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = ad.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = ad.filename;
+
+      const timer = document.createElement('div');
+      timer.className = 'ad-timer';
+      timer.textContent = `Мөөнөт: ${remainingDays} күн ${remainingHours} саат`;
+
+      const removeBtn = document.createElement('div');
+      removeBtn.className = 'remove-btn';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Жарнаманы өчүрүү';
+      removeBtn.setAttribute('role', 'button');
+      removeBtn.tabIndex = 0;
+      removeBtn.addEventListener('click', () => {
+        ads.splice(index, 1);
+        renderAds();
+      });
+
+      li.appendChild(a);
+      li.appendChild(timer);
+      li.appendChild(removeBtn);
+      adList.appendChild(li);
     });
-  </script>
+  }
+
+  uploadForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const fileInput = document.getElementById('adFile');
+    const daysInput = document.getElementById('adDays');
+
+    if (fileInput.files.length === 0) {
+      alert('Файл тандаңыз');
+      return;
+    }
+
+    const file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Тек гана PDF файлдарды кабыл алабыз');
+      return;
+    }
+
+    const days = parseInt(daysInput.value, 10);
+    if (isNaN(days) || days < 1) {
+      alert('Мөөнөттү туура киргизиңиз');
+      return;
+    }
+
+    const fileURL = URL.createObjectURL(file);
+    ads.push({
+      filename: file.name,
+      url: fileURL,
+      days: days,
+      added: new Date()
+    });
+
+    renderAds();
+    uploadForm.reset();
+  });
+
+  renderAds();
+</script>
+
+
 </body>
 </html>
+
 
   
