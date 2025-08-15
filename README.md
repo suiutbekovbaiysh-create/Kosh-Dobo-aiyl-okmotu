@@ -307,35 +307,120 @@
     });
   }
 
- <h2>Убактылуу жарнамалар</h2>
-
-<form onsubmit="addLink(); return false;">
-  <input type="url" id="pdfLink" placeholder="MediaFire ссылкасын киргизиңиз" required>
-  <button type="submit">Кошуу</button>
-</form>
-
-<ul id="ads-list">
-  <!-- Бул жерге документтер чыгат -->
-</ul>
-
 <script>
-function addLink() {
-  const link = document.getElementById('pdfLink').value;
-  const list = document.getElementById('ads-list');
+  // -------------------- Туруктуу PDFтер --------------------
+  const serverPdfFolder = 'pdfs/'; // сервердеги папка
+  const serverPdfFiles = [
+    'doc1.pdf',
+    'doc2.pdf',
+    'doc3.pdf'
+    // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
+  ];
 
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  a.href = link;
-  a.target = '_blank';
-  a.textContent = 'Документти ачуу';
-  li.appendChild(a);
+  const serverPdfList = document.getElementById('server-pdf-list');
+  if (serverPdfFiles.length === 0) {
+    serverPdfList.innerHTML = '<li>Документ жок</li>';
+  } else {
+    serverPdfFiles.forEach(file => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = serverPdfFolder + file;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = file;
+      li.appendChild(a);
+      serverPdfList.appendChild(li);
+    });
+  }
+  // -------------------- Убактылуу жарнамалар --------------------
+  const adList = document.getElementById('ad-list');
+  const uploadForm = document.getElementById('uploadForm');
+  let ads = [];
 
-  list.appendChild(li);
+  function renderAds() {
+    adList.innerHTML = '';
+    const now = new Date();
+    ads = ads.filter(ad => {
+      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
+      return expireDate > now;
+    });
 
-  document.getElementById('pdfLink').value = '';
-}
+    if (ads.length === 0) {
+      adList.innerHTML = '<li>Жарнама жок</li>';
+      return;
+    }
+
+    ads.forEach((ad, index) => {
+      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
+      const remainingMs = expireDate - now;
+      const remainingDays = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+      const remainingHours = Math.floor((remainingMs / (1000 * 60 * 60)) % 24);
+
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = ad.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = ad.filename;
+
+      const timer = document.createElement('div');
+      timer.className = 'ad-timer';
+      timer.textContent = `Мөөнөт: ${remainingDays} күн ${remainingHours} саат`;
+
+      const removeBtn = document.createElement('div');
+      removeBtn.className = 'remove-btn';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Жарнаманы өчүрүү';
+      removeBtn.setAttribute('role', 'button');
+      removeBtn.tabIndex = 0;
+      removeBtn.addEventListener('click', () => {
+        ads.splice(index, 1);
+        renderAds();
+      });
+
+      li.appendChild(a);
+      li.appendChild(timer);
+      li.appendChild(removeBtn);
+      adList.appendChild(li);
+    });
+  }
+
+  uploadForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const fileInput = document.getElementById('adFile');
+    const daysInput = document.getElementById('adDays');
+
+    if (fileInput.files.length === 0) {
+      alert('Файл тандаңыз');
+      return;
+    }
+
+    const file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Тек гана PDF файлдарды кабыл алабыз');
+      return;
+    }
+
+    const days = parseInt(daysInput.value, 10);
+    if (isNaN(days) || days < 1) {
+      alert('Мөөнөттү туура киргизиңиз');
+      return;
+    }
+
+    const fileURL = URL.createObjectURL(file);
+    ads.push({
+      filename: file.name,
+      url: fileURL,
+      days: days,
+      added: new Date()
+    });
+
+    renderAds();
+    uploadForm.reset();
+  });
+
+  renderAds();
 </script>
-
 
 </body>
 </html>
