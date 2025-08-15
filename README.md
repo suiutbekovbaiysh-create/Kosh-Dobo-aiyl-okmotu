@@ -300,7 +300,7 @@
      // -------------------- Туруктуу PDF тизмеси --------------------
 const serverPdfFiles = [
   'https://drive.google.com/uc?export=download&id=1MhyX43a2DrZS0pSJ98E97eQBD68V1uMZ', // Google Drive
-  'https://drive.google.com/uc?export=download&id=1UWAT-07OAF0ED1gC_/view?usp=drive_link
+  'https://drive.google.com/uc?export=download&id=1UWAT-07OAF0ED1gC_/view?usp=drive_link',
   'https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%25BD%25D0%25B3%25D0%25B0%25D0%25BA_%25D0%25B0%25D0%25B9%25D1%258B%25D0%25BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file' // MediaFire
 ];
 
