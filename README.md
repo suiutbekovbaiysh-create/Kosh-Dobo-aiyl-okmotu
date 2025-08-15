@@ -331,8 +331,7 @@
 
     list.appendChild(li);
   });
-</script>
-
+</script
 </body>
 </html>
 
