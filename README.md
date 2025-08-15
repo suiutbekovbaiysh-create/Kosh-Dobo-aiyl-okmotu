@@ -300,7 +300,7 @@
        // -------------------- Туруктуу PDF тизмеси --------------------
   const serverPdfFolder = 'pdfs/'; // сервердеги папка
   const serverPdfFiles = [
-    'https://drive.google.com/file/d/1_3bX8UlNfqlAlw_UWAT-07OAF0ED1gC_/view?usp=drive_link.pdf',
+    'https://drive.google.com//uc?export=download&id=lNfqlAlw_UWAT-07OAF0ED1gC_/view?usp=drive_link.pdf',
     'doc2.pdf'
     // Жаңы документ кошкондо ушул тизмеге атын кошуңуз
   ];
