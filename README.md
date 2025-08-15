@@ -297,28 +297,7 @@
       navLinks.classList.toggle('active');
     }
   });
-
-// -------------------- Туруктуу PDF тизмеси --------------------
-const serverPdfFiles = [
-'https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%25BD%25D0%25B3%25D0%25B0%25D0%25BA_%25D0%25B0%25D0%25B9%25D1%258B%25D0%25BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file',
-  'https://www.mediafire.com/file/o7esnkqurwtdek0/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%25A2%25D0%25B0%25D1%2588_%25D0%2596%25D0%25B0%25D1%2580.pdf/file',
-const serverPdfList = document.getElementById('server-pdf-list');
-if (serverPdfFiles.length === 0) {
-  serverPdfList.innerHTML = '<li>Документ жок</li>';
-} else {
-  serverPdfFiles.forEach(file => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = file; // түздөн-түз URL колдонобуз
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.textContent = file.split('/').pop(); // файлдын атын гана чыгарат
-    li.appendChild(a);
-    serverPdfList.appendChild(li);
-  });
-}
-
-  // -------------------- Убактылуу жарнамалар --------------------
+      // -------------------- Убактылуу жарнамалар --------------------
   const adList = document.getElementById('ad-list');
   const uploadForm = document.getElementById('uploadForm');
   let ads = [];
@@ -402,7 +381,27 @@ if (serverPdfFiles.length === 0) {
   });
 
   renderAds();
+    // -------------------- Туруктуу PDF тизмеси --------------------
+const serverPdfFiles = [
+'https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%25BD%25D0%25B3%25D0%25B0%25D0%25BA_%25D0%25B0%25D0%25B9%25D1%258B%25D0%25BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file',
+  'https://www.mediafire.com/file/o7esnkqurwtdek0/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%25A2%25D0%25B0%25D1%2588_%25D0%2596%25D0%25B0%25D1%2580.pdf/file',
+const serverPdfList = document.getElementById('server-pdf-list');
+if (serverPdfFiles.length === 0) {
+  serverPdfList.innerHTML = '<li>Документ жок</li>';
+} else {
+  serverPdfFiles.forEach(file => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = file; // түздөн-түз URL колдонобуз
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = file.split('/').pop(); // файлдын атын гана чыгарат
+    li.appendChild(a);
+    serverPdfList.appendChild(li);
+  });
+}
 </script>
+
 
 </body>
 </html>
