@@ -285,10 +285,10 @@
   // -------------------- Туруктуу PDFтер --------------------
   const serverPdfFolder = 'pdfs/'; // сервердеги папка
   const serverPdfFiles = [
-    'doc1.pdf'
+    'doc1.pdf',
     'doc2.pdf',
     'doc3.pdf'
- Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
+    // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
   ];
 
   const serverPdfList = document.getElementById('server-pdf-list');
@@ -324,7 +324,6 @@
       adList.innerHTML = '<li>Жарнама жок</li>';
       return;
     }
-
 
     ads.forEach((ad, index) => {
       const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
