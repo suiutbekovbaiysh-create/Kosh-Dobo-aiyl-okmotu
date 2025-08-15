@@ -298,33 +298,34 @@
     }
   });
 
-    <!-- -------------------- Туруктуу PDF тизмеси -------------------- -->
-<script>
+   // -------------------- Туруктуу PDF тизмеси --------------------
 const serverPdfFiles = [
-  // Google Drive файлдары
-  'https://drive.google.com/uc?export=download&id=1_3bX8UlNfqlAlw_UWAT-07OAF0ED1gC_',
-  'https://drive.google.com/uc?export=download&id=185_b6oVIASukQkOtZeSIKsRKUXw1BhC1',
-  'https://drive.google.com/uc?export=download&id=1i3a8Dv_LBvoVVN9jyLTXGhayghMbj_Og',
-  'https://drive.google.com/uc?export=download&id=1cpidSs89w3ZAQgva1lMH01TLtkt3dclt',
-  'https://drive.google.com/uc?export=download&id=1d35tF0szY6FBxYZA9YSA5oCDGhEb5zFF',
-  'https://drive.google.com/uc?export=download&id=18luNXmZZyMIOduVdimdQ3YLaxDQWCSlR',
-  'https://drive.google.com/uc?export=download&id=1sOUukVZETWZ9N1CBYPS1wxOuU4NJ4F_q',
-  'https://drive.google.com/uc?export=download&id=1rpzYE6RxQNQNGVErD0y51krQZ65HUW8s',
-  'https://drive.google.com/uc?export=download&id=1RbgoDF5tZFreWNBWtIEMo9rL3JhedKQ-',
-  'https://drive.google.com/uc?export=download&id=1NRnVhvpyiSEjN86qHqLw-fyr6JoRUlf0',
-  'https://drive.google.com/uc?export=download&id=12cMRZN4xQyJ56HtSUy2cFsLCPGx5Aiwa',
-  'https://drive.google.com/uc?export=download&id=1Rewno5mlVsTJS9fTXe4zzDl7wFaRdXwW',
-  'https://drive.google.com/uc?export=download&id=1WJiJ-zt3VZdCFMAymW1d-V5_yB5Rd6lc',
-  'https://drive.google.com/uc?export=download&id=1hYNKctgQjG2o7m1K1R3-VrGrSd2xzz1Y',
-  'https://drive.google.com/uc?export=download&id=1vLm8SInYiXAj07Y3s5MpUtpojYI3IYmJ',
-  'https://drive.google.com/uc?export=download&id=1J3XHeRdKXzP6ZYKMMEebnWpobORUjq_V',
-  'https://drive.google.com/uc?export=download&id=15myJ8L93T44litMqqJ5IXpaibmmzpUMa',
-  'https://drive.google.com/uc?export=download&id=1AX61WZc4H_KBVPzpwHL9zY2m17DA1k3S',
-  'https://drive.google.com/uc?export=download&id=1D3MHMm3VTOfCdHK5x2zV478cMzTQC6Sm',
-  'https://drive.google.com/uc?export=download&id=1snRAMO_y6gdz968h_ckPUXl4FN97p8Tn',
-  'https://drive.google.com/uc?export=download&id=1vyTGkznCPdmlq-PM2ZR6jXQtKfPyeNsj',
-  'https://drive.google.com/uc?export=download&id=1I1Z30JBcurZOLWqPdAT0d_K2nAaV2_YI',
-  'https://drive.google.com/uc?export=download&id=1OOizOUTB5iMe2CgQkkS4GUoceB7r6Y03'
+  'https://drive.google.com/uc?export=download&id=1MhyX43a2DrZS0pSJ98E97eQBD68V1uMZ', // Google Drive
+      'https://drive.google.com/uc?export=download&id=1_3bX8UlNfqlAlw_UWAT-07OAF0ED1gC_',
+    'https://drive.google.com/uc?export=download&id=185_b6oVIASukQkOtZeSIKsRKUXw1BhC1',
+    'https://drive.google.com/uc?export=download&id=1i3a8Dv_LBvoVVN9jyLTXGhayghMbj_Og',
+    'https://drive.google.com/uc?export=download&id=1cpidSs89w3ZAQgva1lMH01TLtkt3dclt',
+    'https://drive.google.com/uc?export=download&id=1d35tF0szY6FBxYZA9YSA5oCDGhEb5zFF',
+    'https://drive.google.com/uc?export=download&id=18luNXmZZyMIOduVdimdQ3YLaxDQWCSlR',
+    'https://drive.google.com/uc?export=download&id=1sOUukVZETWZ9N1CBYPS1wxOuU4NJ4F_q',
+    'https://drive.google.com/uc?export=download&id=1rpzYE6RxQNQNGVErD0y51krQZ65HUW8s',
+    'https://drive.google.com/uc?export=download&id=1RbgoDF5tZFreWNBWtIEMo9rL3JhedKQ-',
+    'https://drive.google.com/uc?export=download&id=1NRnVhvpyiSEjN86qHqLw-fyr6JoRUlf0',
+    'https://drive.google.com/uc?export=download&id=12cMRZN4xQyJ56HtSUy2cFsLCPGx5Aiwa',
+    'https://drive.google.com/uc?export=download&id=1Rewno5mlVsTJS9fTXe4zzDl7wFaRdXwW',
+    'https://drive.google.com/uc?export=download&id=1WJiJ-zt3VZdCFMAymW1d-V5_yB5Rd6lc',
+    'https://drive.google.com/uc?export=download&id=1hYNKctgQjG2o7m1K1R3-VrGrSd2xzz1Y',
+    'https://drive.google.com/uc?export=download&id=1vLm8SInYiXAj07Y3s5MpUtpojYI3IYmJ',
+    'https://drive.google.com/uc?export=download&id=1J3XHeRdKXzP6ZYKMMEebnWpobORUjq_V',
+    'https://drive.google.com/uc?export=download&id=15myJ8L93T44litMqqJ5IXpaibmmzpUMa',
+    'https://drive.google.com/uc?export=download&id=1AX61WZc4H_KBVPzpwHL9zY2m17DA1k3S',
+    'https://drive.google.com/uc?export=download&id=1D3MHMm3VTOfCdHK5x2zV478cMzTQC6Sm',
+    'https://drive.google.com/uc?export=download&id=1snRAMO_y6gdz968h_ckPUXl4FN97p8Tn',
+    'https://drive.google.com/uc?export=download&id=1vyTGkznCPdmlq-PM2ZR6jXQtKfPyeNsj',
+    'https://drive.google.com/uc?export=download&id=1I1Z30JBcurZOLWqPdAT0d_K2nAaV2_YI',
+    'https://drive.google.com/uc?export=download&id=1OOizOUTB5iMe2CgQkkS4GUoceB7r6Y03',
+'https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%25BD%25D0%25B3%25D0%25B0%25D0%25BA_%25D0%25B0%25D0%25B9%25D1%258B%25D0%25BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file' // MediaFire
+];
 
 const serverPdfList = document.getElementById('server-pdf-list');
 if (serverPdfFiles.length === 0) {
@@ -336,11 +337,12 @@ if (serverPdfFiles.length === 0) {
     a.href = file; // түздөн-түз URL колдонобуз
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
-    a.textContent = decodeURIComponent(file.split('/').pop()); // файлдын атын чыгарат
+    a.textContent = file.split('/').pop(); // файлдын атын гана чыгарат
     li.appendChild(a);
     serverPdfList.appendChild(li);
   });
 }
+
   // -------------------- Убактылуу жарнамалар --------------------
   const adList = document.getElementById('ad-list');
   const uploadForm = document.getElementById('uploadForm');
