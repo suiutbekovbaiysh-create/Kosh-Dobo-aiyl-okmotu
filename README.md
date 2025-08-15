@@ -297,7 +297,6 @@
       navLinks.classList.toggle('active');
     }
   });
-  <ul id="server-pdf-list"></ul>
 
     <!-- -------------------- Туруктуу PDF тизмеси -------------------- -->
 <script>
@@ -327,8 +326,6 @@ const serverPdfFiles = [
   'https://drive.google.com/uc?export=download&id=1I1Z30JBcurZOLWqPdAT0d_K2nAaV2_YI',
   'https://drive.google.com/uc?export=download&id=1OOizOUTB5iMe2CgQkkS4GUoceB7r6Y03'
 
-];
-
 const serverPdfList = document.getElementById('server-pdf-list');
 if (serverPdfFiles.length === 0) {
   serverPdfList.innerHTML = '<li>Документ жок</li>';
@@ -344,10 +341,6 @@ if (serverPdfFiles.length === 0) {
     serverPdfList.appendChild(li);
   });
 }
-</script>
-
-
-
   // -------------------- Убактылуу жарнамалар --------------------
   const adList = document.getElementById('ad-list');
   const uploadForm = document.getElementById('uploadForm');
