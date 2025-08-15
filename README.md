@@ -297,28 +297,28 @@
       navLinks.classList.toggle('active');
     }
   });
-       // -------------------- Туруктуу PDF тизмеси --------------------
-  const serverPdfFolder = 'pdfs/'; // сервердеги папка
-  const serverPdfFiles = [
-    'https://drive.google.com//uc?export=download&id=lNfqlAlw_UWAT-07OAF0ED1gC_/view?usp=drive_link.pdf',
-    'doc2.pdf'
-    // Жаңы документ кошкондо ушул тизмеге атын кошуңуз
-  ];
-  const serverPdfList = document.getElementById('server-pdf-list');
-  if (serverPdfFiles.length === 0) {
-    serverPdfList.innerHTML = '<li>Документ жок</li>';
-  } else {
-    serverPdfFiles.forEach(file => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = serverPdfFolder + file;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.textContent = file;
-      li.appendChild(a);
-      serverPdfList.appendChild(li);
-    });
-  }
+     // -------------------- Туруктуу PDF тизмеси --------------------
+const serverPdfFiles = [
+  'https://drive.google.com/uc?export=download&id=1MhyX43a2DrZS0pSJ98E97eQBD68V1uMZ', // Google Drive
+  'https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%25BD%25D0%25B3%25D0%25B0%25D0%25BA_%25D0%25B0%25D0%25B9%25D1%258B%25D0%25BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file' // MediaFire
+];
+
+const serverPdfList = document.getElementById('server-pdf-list');
+if (serverPdfFiles.length === 0) {
+  serverPdfList.innerHTML = '<li>Документ жок</li>';
+} else {
+  serverPdfFiles.forEach(file => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = file; // түздөн-түз URL колдонобуз
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = file.split('/').pop(); // файлдын атын гана чыгарат
+    li.appendChild(a);
+    serverPdfList.appendChild(li);
+  });
+}
+
 
   // -------------------- Убактылуу жарнамалар --------------------
   const adList = document.getElementById('ad-list');
