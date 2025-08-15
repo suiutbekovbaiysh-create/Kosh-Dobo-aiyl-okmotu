@@ -405,41 +405,7 @@
   });
 
   renderAds();
-  <h1>PDF Файлдары</h1>
-<ul id="pdf-list"></ul>
-
-<script>
-  // PDF маалыматтары: аталыш, MediaFire шилтеме жана мөөнөт (YYYY-MM-DD)
-  const pdfFiles = [
-    { name: "Сабак 1 - Киришүү", url: "https://www.mediafire.com/file/xxxxxx/file1.pdf/file", expires: "2025-12-31" },
-    { name: "Сабак 2 - Программа", url: "https://www.mediafire.com/file/yyyyyy/file2.pdf/file", expires: "2025-08-20" },
-    { name: "Сабак 3 - Практика", url: "https://www.mediafire.com/file/zzzzzz/file3.pdf/file", expires: "2025-09-15" }
-  ];
-
-  const list = document.getElementById("pdf-list");
-  const today = new Date();
-
-  pdfFiles.forEach(file => {
-    const expireDate = new Date(file.expires);
-
-    const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.textContent = file.name;
-    a.target = "_blank";
-
-    if(today > expireDate){
-      li.textContent = file.name + " (жараксыз)";
-      li.className = "expired";
-    } else {
-      a.href = file.url;
-      li.appendChild(a);
-    }
-
-    list.appendChild(li);
-  });
 </script>
 
 </body>
 </html>
-
-
