@@ -285,7 +285,7 @@
   // -------------------- Туруктуу PDFтер --------------------
   const serverPdfFolder = 'pdfs/'; // сервердеги папка
   const serverPdfFiles = [
-'https://github.com/suiutbekovbaiysh-create/Kosh-Dobo-aiyl-okmotu/blob/main/1_%D0%9E%D0%9F%20%D1%81.%D0%96%D0%B0%D0%BD%D0%B3%D0%B0%D0%BA%20%D0%B0%D0%B9%D1%8B%D0%BB%D1%8B-%D0%9E%D0%9F.pdf',
+    'doc1.pdf'
     'doc2.pdf',
     'doc3.pdf'
  Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
