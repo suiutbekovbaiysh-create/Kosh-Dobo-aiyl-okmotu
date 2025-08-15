@@ -257,180 +257,128 @@
   <p>Жер шарты мал чарбачылыгына жана дыйканчылыкка ылайыктуу.</p>
 </section>
 
+
 <section id="zhanylyktar">
   <h2>Жаңылыктар жана Убактылуу Жарнамалар</h2>
-  <p>Бул бөлүмдө айыл аймагындагы акыркы жаңылыктар жана PDF документтер бар.</p>
 
-  <!-- Папкадагы PDF тизмеси -->
   <h3>Туруктуу документтер</h3>
   <ul class="ad-list" id="server-pdf-list"></ul>
 
-  <!-- Убактылуу жарнамалар -->
   <h3>Убактылуу жарнамалар</h3>
   <ul class="ad-list" id="ad-list"></ul>
 
-  <!-- Жүктөө формасы -->
   <form class="upload-form" id="uploadForm" enctype="multipart/form-data" aria-label="Жарнамаларды жүктөө формасы">
     <label for="adFile">Жарнама (PDF):</label>
     <input type="file" id="adFile" name="adFile" accept="application/pdf" required aria-required="true" />
-    
     <label for="adDays">Жарнаманын мөөнөтү (күн):</label>
     <input type="number" id="adDays" name="adDays" min="1" max="365" value="7" required aria-required="true" />
-    
     <button type="submit">Жүктөө</button>
   </form>
 </section>
 
 <script>
+  // Burger меню
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('nav-links');
+  burger.addEventListener('click', () => navLinks.classList.toggle('active'));
+
   // -------------------- Туруктуу PDFтер --------------------
-  const serverPdfFolder = 'pdfs/'; // сервердеги папка
+  const serverPdfFolder = 'pdfs/'; 
   const serverPdfFiles = [
     'doc1.pdf',
-    'doc2.pdf',
-    'doc3.pdf'
-    // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
+    'doc2.pdf'
   ];
-
   const serverPdfList = document.getElementById('server-pdf-list');
-  if (serverPdfFiles.length === 0) {
-    serverPdfList.innerHTML = '<li>Документ жок</li>';
-  } else {
-    serverPdfFiles.forEach(file => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = serverPdfFolder + file;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.textContent = file;
-      li.appendChild(a);
-      serverPdfList.appendChild(li);
-    });
+  serverPdfFiles.forEach(file => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = serverPdfFolder + file;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = file;
+    li.appendChild(a);
+    serverPdfList.appendChild(li);
+  });
+
+  // -------------------- Убактылуу жарнамалар --------------------
+  let ads = JSON.parse(localStorage.getItem('ads')) || [];
+  const adList = document.getElementById('ad-list');
+
+  function saveAds() {
+    localStorage.setItem('ads', JSON.stringify(ads));
   }
-
-<script>
-  // -------------------- Туруктуу PDFтер --------------------
-  const serverPdfFolder = 'pdfs/'; // сервердеги папка
-  const serverPdfFiles = [
-'https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%25BD%25D0%25B3%25D0%25B0%25D0%25BA_%25D0%25B0%25D0%25B9%25D1%258B%25D0%25BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file',
-    'doc2.pdf',
-    'doc3.pdf'
-    // Жаңы PDF кошкондо ушул тизмеге атын кошуңуз
-  ];
-
-  const serverPdfList = document.getElementById('server-pdf-list');
-  if (serverPdfFiles.length === 0) {
-    serverPdfList.innerHTML = '<li>Документ жок</li>';
-  } else {
-    serverPdfFiles.forEach(file => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = serverPdfFolder + file;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.textContent = file;
-      li.appendChild(a);
-      serverPdfList.appendChild(li);
-    });
-  }
- <section id="temporary-ads">
-  <h2>Убактылуу жарнамалар</h2>
-  <ul id="ads-list">
-    <li>
-      <a href="https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%BD%25D0%B3%25D0%B0%25D0%BA_%25D0%B0%25D0%B9%25D1%258B%25D0%BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file" target="_blank">
-        1_ОП_с.Жангак_айылы-ОП.pdf
-      </a>
-    </li>
-  </ul>
-</section>
-
 
   function renderAds() {
     adList.innerHTML = '';
-    const now = new Date();
-    ads = ads.filter(ad => {
-      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
-      return expireDate > now;
-    });
-
-    if (ads.length === 0) {
-      adList.innerHTML = '<li>Жарнама жок</li>';
-      return;
-    }
-
+    const now = Date.now();
+    ads = ads.filter(ad => now < ad.expireAt); 
     ads.forEach((ad, index) => {
-      const expireDate = new Date(ad.added.getTime() + ad.days * 24 * 60 * 60 * 1000);
-      const remainingMs = expireDate - now;
-      const remainingDays = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
-      const remainingHours = Math.floor((remainingMs / (1000 * 60 * 60)) % 24);
-
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.href = ad.url;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
-      a.textContent = ad.filename;
+      a.textContent = ad.name;
 
-      const timer = document.createElement('div');
+      const timer = document.createElement('span');
       timer.className = 'ad-timer';
-      timer.textContent = `Мөөнөт: ${remainingDays} күн ${remainingHours} саат`;
-
-      const removeBtn = document.createElement('div');
-      removeBtn.className = 'remove-btn';
-      removeBtn.textContent = '×';
-      removeBtn.title = 'Жарнаманы өчүрүү';
-      removeBtn.setAttribute('role', 'button');
-      removeBtn.tabIndex = 0;
-      removeBtn.addEventListener('click', () => {
-        ads.splice(index, 1);
-        renderAds();
-      });
-
       li.appendChild(a);
       li.appendChild(timer);
+
+      const removeBtn = document.createElement('span');
+      removeBtn.className = 'remove-btn';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.addEventListener('click', () => {
+        ads.splice(index, 1);
+        saveAds();
+        renderAds();
+      });
       li.appendChild(removeBtn);
+
       adList.appendChild(li);
+
+      function updateTimer() {
+        const remaining = ad.expireAt - Date.now();
+        if (remaining <= 0) {
+          ads.splice(index, 1);
+          saveAds();
+          renderAds();
+        } else {
+          const days = Math.floor(remaining / (1000*60*60*24));
+          const hours = Math.floor((remaining % (1000*60*60*24)) / (1000*60*60));
+          const minutes = Math.floor((remaining % (1000*60*60)) / (1000*60));
+          timer.textContent = `${days} күн ${hours} саат ${minutes} мин`;
+        }
+      }
+      updateTimer();
+      setInterval(updateTimer, 60000);
     });
+    saveAds();
   }
 
-  uploadForm.addEventListener('submit', e => {
+  renderAds();
+
+  // -------------------- Формадан жүктөө --------------------
+  const uploadForm = document.getElementById('uploadForm');
+  uploadForm.addEventListener('submit', function(e) {
     e.preventDefault();
     const fileInput = document.getElementById('adFile');
     const daysInput = document.getElementById('adDays');
-
-    if (fileInput.files.length === 0) {
-      alert('Файл тандаңыз');
-      return;
-    }
-
     const file = fileInput.files[0];
-    if (file.type !== 'application/pdf') {
-      alert('Тек гана PDF файлдарды кабыл алабыз');
-      return;
-    }
-
-    const days = parseInt(daysInput.value, 10);
-    if (isNaN(days) || days < 1) {
-      alert('Мөөнөттү туура киргизиңиз');
-      return;
-    }
-
-    const fileURL = URL.createObjectURL(file);
-    ads.push({
-      filename: file.name,
-      url: fileURL,
-      days: days,
-      added: new Date()
-    });
-
+    if (!file) return alert('PDF тандаңыз');
+    const url = URL.createObjectURL(file);
+    const expireAt = Date.now() + (daysInput.value*24*60*60*1000);
+    ads.push({ name: file.name, url, expireAt });
+    saveAds();
     renderAds();
     uploadForm.reset();
   });
-
-  renderAds();
 </script>
+
+<footer>
+  &copy; 2025 Кош-Дөбө айыл аймагы. Бардык укуктар корголгон.
+</footer>
 
 </body>
 </html>
 
-
-  
