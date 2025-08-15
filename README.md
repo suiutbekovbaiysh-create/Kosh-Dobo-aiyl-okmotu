@@ -332,10 +332,17 @@
       serverPdfList.appendChild(li);
     });
   }
-  // -------------------- Убактылуу жарнамалар --------------------
-  const adList = document.getElementById('ad-list');
-  const uploadForm = document.getElementById('uploadForm');
-  let ads = [];
+ <section id="temporary-ads">
+  <h2>Убактылуу жарнамалар</h2>
+  <ul id="ads-list">
+    <li>
+      <a href="https://www.mediafire.com/file/7aohm06t1vxxt9d/1_%25D0%259E%25D0%259F_%25D1%2581.%25D0%2596%25D0%25B0%25D0%BD%25D0%B3%25D0%B0%25D0%BA_%25D0%B0%25D0%B9%25D1%258B%25D0%BB%25D1%258B-%25D0%259E%25D0%259F.pdf/file" target="_blank">
+        1_ОП_с.Жангак_айылы-ОП.pdf
+      </a>
+    </li>
+  </ul>
+</section>
+
 
   function renderAds() {
     adList.innerHTML = '';
